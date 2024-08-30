@@ -1,0 +1,26 @@
+{
+    "FocalMethodId": 999,
+    "TestCaseId": 999,
+    "TestEvaluated": true,
+    "TestFramework": "TypeScript",
+    "BuildError": {
+        "Message": "",
+        "Code": 0,
+        "ProjectFile": "",
+        "File": "",
+        "Line": 0,
+        "Column": 0
+    },
+    "TestResult": {
+        "Success": false,
+        "ErrorMessages": "",
+        "Duration": 0,
+        "Output": null,
+        "TestDefinition": {
+            "Name": "",
+            "Class": "",
+            "Storage": "",
+            "Type": ""
+        }
+    }
+}
