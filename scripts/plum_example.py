@@ -1,5 +1,8 @@
 from plum.environments.py_repo import PythonRepository
+from plum.environments.js_repo import JavascriptRepository
 from plum.actions.py_actions import PythonActions
+from plum.actions.js_actions import JavascriptActions
+
 import click
 
 
@@ -7,7 +10,6 @@ import click
 @click.option('--base', help='Base path at which to clone the git repo')
 @click.option('--repo_path', help='"username/reponame"')
 def run_one_repo(base, repo_path):
-
     repo = PythonRepository(base, repo_path)
     repo.setup(cleanup=True)
     functions = repo.get_functions()
