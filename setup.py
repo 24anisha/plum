@@ -51,6 +51,7 @@ setup(
             "filelock>=3.13.1",
             "GitPython>=3.1.40",
             "inflection>=0.5.1",
+            "jsonpickle>=3.3.0",
             "lxml>=4.9.4",
             "openai>=0.25.0",
             "pdoc3>=0.10.0",

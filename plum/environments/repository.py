@@ -7,7 +7,6 @@ from dataclasses import dataclass
 from abc import ABC, abstractmethod
 from enum import Enum
 
-from tree_sitter import get_language
 from tree_sitter import Language as L
 
 from plum.harnesslib.languages import Language

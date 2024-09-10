@@ -3,7 +3,7 @@ from pathlib import Path
 import subprocess
 import os 
 from source_parser.parsers import JavascriptParser
-from tree_sitter import get_language
+from source_parser.tree_sitter import get_language
 from tree_sitter import Language as L, Parser
 
 from plum.harnesslib.data_model import ClonedRepoInfo
