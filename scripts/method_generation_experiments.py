@@ -3,6 +3,7 @@ from plum.environments.py_repo import PythonRepository
 from plum.actions.py_actions import PythonActions
 from plum.utils.llms import nonchat_gpt
 import json
+from pathlib import Path
 import fileinput
 
 def method_generation_experiment(base_path, repo_name, cleanup):
@@ -212,8 +213,8 @@ Complete the following python function given the docstring. DO NOT repeat any co
 
 def main():
     # TODO change this to the path to the plum-api directory
-    base_path = "INSERT/YOUR/BASE/PATH/HERE"
-    with open('/path/to/plum-api/plum/data/100_python_repos.csv', 'r') as f:
+    base_path = Path("/Users/andypeng/Downloads/msft/plum/example")
+    with open('/Users/andypeng/Downloads/msft/plum/plum/data/100_python_repos.csv', 'r') as f:
         repos = f.readlines()[1:]
 
     for repo in repos:

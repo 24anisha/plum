@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from random import sample
 import backoff
-from openai.error import RateLimitError
+from openai import RateLimitError
 from tenacity import retry, stop_after_attempt, wait_random_exponential
 from plum.utils.logger import Logger
 
