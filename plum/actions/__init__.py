@@ -18,7 +18,9 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 # conventional way to annotate logger
 # FORMATTER = logging.formatter('%(asctime)s | %(levelname)s: %(message)s')
 
+# general Actions factory function
 def Actions(
+    
     language: str,
     environment,
     docker_image = None,
@@ -27,6 +29,10 @@ def Actions(
     repo_name="",
     local_repository="",
 ):
+    """
+    Takes input string language and returns the corresponding Actions object
+    """
+
     language = language.lower()
     if language == "cpp":
         return CppActions(environment, docker_image, docker_tag, docker_work_dir, repo_name, local_repository)
