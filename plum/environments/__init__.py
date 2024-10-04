@@ -18,6 +18,7 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 # conventional way to annotate logger
 # FORMATTER = logging.formatter('%(asctime)s | %(levelname)s: %(message)s')
 
+# general Repository factory function
 def Repository(
         language: str,
         base,
@@ -25,6 +26,9 @@ def Repository(
         commit_sha="",
         focal_functions=[],
 ):
+    """
+    Takes input string language and returns the corresponding Repository object
+    """
     language = language.lower()
     if language == "python":
         return PythonRepository(base, repo_path, commit_sha, focal_functions, language)
