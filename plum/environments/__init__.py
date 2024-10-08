@@ -38,7 +38,7 @@ def Repository(
         return CppRepository(base, repo_path, commit_sha, focal_functions, language)
     elif language == "csharp":
         return CsharpRepository(base, repo_path, commit_sha, focal_functions, language)
-    elif language == "javascript":
+    elif language == "javascript" or language == "javascript":
         return JavascriptRepository(base, repo_path, commit_sha, focal_functions, language)
     else:
         raise ValueError(f"unsupported langauge: {language}")

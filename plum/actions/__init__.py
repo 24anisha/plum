@@ -40,7 +40,7 @@ def Actions(
         return CsharpDotnetActions(environment, docker_image, docker_tag, docker_work_dir, repo_name, local_repository)
     elif language == "java":
         return JavaMavenActions(environment, docker_image, docker_tag, docker_work_dir, repo_name, local_repository)
-    elif language == "javascript":
+    elif language == "javascript" or language == "typescript":
         return JavascriptActions(environment)
     elif language == "python":
         return PythonActions(environment)
