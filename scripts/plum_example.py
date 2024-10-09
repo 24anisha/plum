@@ -8,7 +8,7 @@ import click
 
 @click.command()
 @click.option('--base', help='Base path at which to clone the git repo')
-@click.option('--repo_path', help='"username/reponame"')
+@click.option('--repo_path', default="", help='"username/reponame"')
 def run_one_repo(base, repo_path):
     repo = PythonRepository(base, repo_path)
     repo.setup(cleanup=True)
