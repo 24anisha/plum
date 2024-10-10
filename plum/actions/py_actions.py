@@ -193,8 +193,35 @@ class PythonActions(Actions):
         with open(file_path, 'w') as f:
             f.write(fixed_contents)
 
+    def run_generated_test(self, generated_test: str, test_file: Path, overwrite=True) -> dict:
+        """
+        Run a generated test and return the results.
+        :param generated_test: string output from the model of a generated test suite/test case
+        :param test_file: the path to the file where the generated test should be saved
+        :param overwrite: whether to overwrite or append the generated_test string if the test_file path already exists
+        :return: dict containing the results of the test execution
+        """
+        saved_file = self.save_generated_test(generated_test, test_file, overwrite)
+        return self.execute_test(saved_file)
+    
+    def save_generated_test(self, generated_test: str, test_file: Path = None, overwrite=True) -> Path:
+        """
+        Save the generated test at the correct location, with the correct formatting.
 
-    def execute_test_file(self, test_file, timeout=2):
+        :param generated_test: string output from the model of a generated test suite/test case
+        :param test_file: the path to the file where the generated test should be saved
+        :param overwrite: whether to overwrite or append the generated_test string if the test_file path already exists
+        :return: Path to the saved test file
+        """
+        if test_file is None:
+            # Generate a default test file name if not provided
+            test_file = self.cwd / "generated_test.py"
+        mode = 'w' if overwrite else 'a'
+        with open(test_file, mode) as f:
+            f.write(generated_test)
+        return test_file
+
+    def execute_test(self, test_file, timeout=2):
         """
         Given a path to a file with a test in it, 
         evaluate the test in the given repo context and return
@@ -221,19 +248,3 @@ class PythonActions(Actions):
             result = {"path": str(test_file), "success": False, "stdout": stdout, "stderr": stderr}
 
         return result
-
-
-    def save_generated_test(self, generated_test, fnhash, test_path=None):
-        test_file = f"test_{fnhash}.py"
-        if not test_path:
-            test_path = self.environment.base / self.environment.internal_repo_path / test_file
-        else:
-            test_path = test_path / test_file
-        with open(test_path, "w") as f:
-            f.write(generated_test)
-            Logger().get_logger().info(f"Saved {test_path}")
-        return test_path
-
-    def delete_generated_file(self, test_path):
-        os.remove(test_path)
-

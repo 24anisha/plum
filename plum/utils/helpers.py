@@ -6,6 +6,8 @@ import json
 import warnings
 import autopep8
 from plum.utils.logger import Logger
+import contextlib
+from pathlib import Path
 
 def fnhash(f):
     """
@@ -201,3 +203,25 @@ def fix_indentation(source_string):
 def postprocess(markdown):
     code_snippets = re.findall(r"```python(.*?)```", markdown, re.DOTALL)
     return code_snippets[0] if code_snippets else None
+
+
+@contextlib.contextmanager
+def temporary_file_content_change(filename: Path, temporary_content: str, mode='a'):
+    """
+    Temporarily change the content of a file and revert it back after use.
+
+    :param filename: Path to the file to be modified
+    :param temporary_content: Content to be added or overwritten
+    :param mode: mode to open the file with
+    """
+    with open(filename, "r") as fin:
+        original_file_content = fin.read()
+
+    try:
+        with open(filename, mode) as fout1:
+            fout1.write(temporary_content)
+        yield
+    finally:
+        with open(filename, mode) as fout2:
+            fout2.write(original_file_content)
+

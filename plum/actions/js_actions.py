@@ -14,6 +14,7 @@ from plum.environments.repository import Repository
 from plum.actions.actions import Actions
 from plum.utils.cobertura import get_function_coverage, parse_xml_as_dict
 from plum.utils.logger import Logger
+from plum.utils.helpers import temporary_file_content_change
 
 
 class JavascriptActions(Actions):
@@ -148,16 +149,52 @@ class JavascriptActions(Actions):
 
         return fn2coverage
 
-    # TODO implement this and remove it from CES
-    def run_generated_test(self, generated_test, relative_path, test_library="jest", timeout=5):
+    def run_generated_test(self, generated_test: str, test_file: Path, overwrite=True) -> dict:
         """
-        Appends a generated test to a file at relative_path and get the results
-        of running the test in the file.
-        :generated_test: the generated test to append to the file
-        :relative_path: the relative path of the file to run the test on
-        """
-        raise NotImplementedError
+        Run a generated test and return the results.
 
+        :param generated_test: string output from the model of a generated test suite/test case
+        :param test_file: the path to the file where the generated test should be saved
+        :param overwrite: whether to overwrite or append the generated_test string if the test_file path already exists
+        :return: dict containing the results of the test execution
+        """
+        saved_file = self.save_generated_test(generated_test, test_file, overwrite)
+        return self.execute_test(saved_file)
+
+    def save_generated_test(self, generated_test: str, test_file: Path = None, overwrite=True) -> Path:
+        """
+        Save the generated test at the correct location, with the correct formatting.
+
+        :param generated_test: string output from the model of a generated test suite/test case
+        :param test_file: the path to the file where the generated test should be saved
+        :param overwrite: whether to overwrite or append the generated_test string if the test_file path already exists
+        :return: Path to the saved test file
+        """
+        if test_file is None:
+            # Generate a default test file name if not provided
+            test_file = self.cwd / "generated_test.js"
+
+        if self.environment.test_library == "mocha":
+            return test_file
+        elif self.environment.test_library == "jest":
+            new_test_file = test_file.with_name(f"{test_file.stem}.test{test_file.suffix}")
+            mode = 'w' if overwrite else 'a'
+            with open(new_test_file, mode) as f:
+                f.write(generated_test)
+            return new_test_file
+    
+    def execute_test(self, test_file: Path) -> dict:
+        """
+        Given the path to the generated test, run it and return the results.
+
+        :param test_file: Path to the test file to be executed
+        :return: dict containing the results of the test execution
+        """
+        if self.environment.test_library == "mocha":
+            with temporary_file_content_change(test_file, self.generated_test, mode='a'):
+                return self.run_npm_test(test_file, test_library="mocha")
+        elif self.environment.test_library == "jest":
+            return self.run_npm_test(test_file, test_library="jest")
 
     def run_npm_test(self, relative_path, test_library="jest", timeout=5):
         """
