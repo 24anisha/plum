@@ -163,9 +163,9 @@ class PythonActions(Actions):
         """
         Write a snippet to a file
         params: 
-        :snippet_text: the content to be written into the file
+        :snippet: the content to be written into the file
         :path: the path to the file
-        :snippet: the type of snippet to be written (function, docstring, lines of code, etc)
+        :snippet_type: the type of snippet to be written (function, docstring, lines of code, etc)
         """
         if snippet_type == 'function':
             function = ""
