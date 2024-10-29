@@ -53,9 +53,16 @@ class Actions():
         """
         pass
 
-        # TODO add run_generated_test as an abstract method of the actions class
-    # @abstractmethod
-    # def run_generated_test(self, generated_test)
+    @abstractmethod
+    def run_generated_test(self, generated_test):
+        """
+        Run a generated test for the given environment.
+
+        :param generated_test: The test to be run
+        :return: Result of running the generated test
+        :raises NotImplementedError: If not implemented in subclass
+        """
+        raise NotImplementedError("Subclass must implement abstract method run_generated_test")
 
     # @abstractmethod
     # def run_single_test(self, test_file_path):
