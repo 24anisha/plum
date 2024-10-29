@@ -3,6 +3,7 @@ from plum.environments.py_repo import PythonRepository
 from plum.actions.py_actions import PythonActions
 from plum.utils.llms import nonchat_gpt
 import json
+from pathlib import Path
 import fileinput
 
 def method_generation_experiment(base_path, repo_name, cleanup):
